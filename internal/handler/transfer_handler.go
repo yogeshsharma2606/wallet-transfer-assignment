@@ -120,6 +120,8 @@ func publicError(err error) string {
 		return "idempotency key already used with a different request"
 	case errors.Is(err, domain.ErrInsufficientFunds):
 		return "insufficient funds"
+	case errors.Is(err, domain.ErrWalletIdEmpty):
+		return "wallet id is empty"
 	default:
 		return "internal server error"
 	}

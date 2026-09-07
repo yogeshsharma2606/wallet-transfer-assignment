@@ -86,7 +86,7 @@ func (r *IdempotencyRepo) Complete(ctx context.Context, tx *sql.Tx, key string, 
 	if transferID != "" {
 		transferIDArg = transferID
 	}
-	res, err := tx.ExecContext(ctx, q, transferIDArg, responseStatus, responseBody, key)
+	res, err := tx.ExecContext(ctx, q, transferIDArg, responseStatus, string(responseBody), key)
 	if err != nil {
 		return fmt.Errorf("complete idempotency record %s: %w", key, err)
 	}

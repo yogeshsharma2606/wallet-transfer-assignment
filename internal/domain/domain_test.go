@@ -39,7 +39,7 @@ func TestNewTransferRequest_Validate(t *testing.T) {
 		{
 			name:    "empty from wallet",
 			req:     NewTransferRequest{IdempotencyKey: "k1", FromWalletID: "", ToWalletID: "w2", Amount: 100},
-			wantErr: ErrWalletNotFound,
+			wantErr: ErrWalletIdEmpty,
 		},
 		{
 			name:    "empty to wallet",
