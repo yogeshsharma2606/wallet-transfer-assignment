@@ -65,7 +65,9 @@ func (h *TransferHandler) CreateTransfer(w http.ResponseWriter, r *http.Request)
 		Amount:         req.Amount,
 	})
 	if err != nil {
-		writeJSON(w, statusForError(err), errorResponse{Error: err.Error()})
+		writeJSON(w, statusForError(err), errorResponse{
+			Error: publicError(err),
+		})
 		return
 	}
 
@@ -92,6 +94,7 @@ func statusForError(err error) int {
 	case errors.Is(err, domain.ErrIdempotencyKeyEmpty),
 		errors.Is(err, domain.ErrSameWallet),
 		errors.Is(err, domain.ErrInvalidAmount),
+		errors.Is(err, domain.ErrWalletIdEmpty),
 		errors.Is(err, domain.ErrWalletNotFound):
 		return http.StatusBadRequest
 	case errors.Is(err, domain.ErrIdempotencyConflict):
@@ -100,6 +103,25 @@ func statusForError(err error) int {
 		return http.StatusUnprocessableEntity
 	default:
 		return http.StatusInternalServerError
+	}
+}
+
+func publicError(err error) string {
+	switch {
+	case errors.Is(err, domain.ErrIdempotencyKeyEmpty):
+		return "idempotency key is required"
+	case errors.Is(err, domain.ErrSameWallet):
+		return "source and destination wallets must be different"
+	case errors.Is(err, domain.ErrInvalidAmount):
+		return "amount must be greater than zero"
+	case errors.Is(err, domain.ErrWalletNotFound):
+		return "wallet not found"
+	case errors.Is(err, domain.ErrIdempotencyConflict):
+		return "idempotency key already used with a different request"
+	case errors.Is(err, domain.ErrInsufficientFunds):
+		return "insufficient funds"
+	default:
+		return "internal server error"
 	}
 }
 

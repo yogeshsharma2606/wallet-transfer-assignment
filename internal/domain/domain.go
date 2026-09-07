@@ -29,6 +29,7 @@ const (
 // but callers (including HTTP handlers) can use errors.Is against them.
 var (
 	ErrWalletNotFound         = errors.New("wallet not found")
+	ErrWalletIdEmpty          = errors.New("wallet id is empty")
 	ErrSameWallet             = errors.New("source and destination wallet must differ")
 	ErrInvalidAmount          = errors.New("amount must be a positive integer number of minor units")
 	ErrInsufficientFunds      = errors.New("insufficient funds")
@@ -114,7 +115,7 @@ func (r NewTransferRequest) Validate() error {
 		return ErrIdempotencyKeyEmpty
 	}
 	if r.FromWalletID == "" || r.ToWalletID == "" {
-		return ErrWalletNotFound
+		return ErrWalletIdEmpty
 	}
 	if r.FromWalletID == r.ToWalletID {
 		return ErrSameWallet

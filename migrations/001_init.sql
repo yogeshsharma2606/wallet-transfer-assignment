@@ -11,11 +11,7 @@
 --   * ledger_entries has a UNIQUE (transfer_id, wallet_id, type) constraint
 --     so a given transfer can never accumulate more than one debit or one
 --     credit leg, guarding the double-entry invariant at the schema level.
---   * idempotency_records is intentionally decoupled from transfers: it
---     needs to store an outcome even for requests that fail validation
---     before a transfer row would otherwise be created (not used in the
---     current service flow, which always creates a transfer row first, but
---     keeps the table useful if that changes).
+--   * idempotency_records is intentionally decoupled from transfers
 
 CREATE TABLE IF NOT EXISTS wallets (
     id          TEXT PRIMARY KEY,

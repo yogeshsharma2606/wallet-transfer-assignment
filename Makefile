@@ -1,7 +1,7 @@
 .PHONY: up down migrate test test-integration test-race run build
 
 DATABASE_URL ?= postgres://postgres:postgres@localhost:5432/wallettransfer?sslmode=disable
-TEST_DATABASE_URL ?= postgres://postgres:postgres@localhost:5432/wallettransfer?sslmode=disable
+TEST_DATABASE_URL ?= postgres://postgres:postgres@localhost:5432/wallettransfer_test?sslmode=disable
 
 export DATABASE_URL
 export TEST_DATABASE_URL

@@ -69,7 +69,9 @@ func (h *WalletHandler) GetWallet(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	if err != nil {
-		writeJSON(w, http.StatusInternalServerError, errorResponse{Error: err.Error()})
+
+		writeJSON(w, http.StatusInternalServerError,
+			errorResponse{Error: "internal server error"})
 		return
 	}
 	writeJSON(w, http.StatusOK, walletResponse{ID: wallet.ID, Balance: wallet.Balance})

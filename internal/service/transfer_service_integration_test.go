@@ -35,13 +35,9 @@ import (
 
 func testDB(t *testing.T) *sql.DB {
 	t.Helper()
-	err := godotenv.Load("../../.env")
+	_ := godotenv.Load("../../.env")
 	dsn := os.Getenv("TEST_DATABASE_URL")
 	if dsn == "" {
-		if err != nil {
-			t.Fatalf("load .env: %v", err)
-		}
-		dsn = os.Getenv("TEST_DATABASE_URL")
 		t.Skip("TEST_DATABASE_URL not set; skipping integration test")
 	}
 	db, err := sql.Open("postgres", dsn)
@@ -443,12 +439,12 @@ func TestIntegration_ConcurrentBidirectionalTransfers_BalancesUnchanged(t *testi
 	svc := newTestService(db)
 
 	const (
-		walletA       = "wallet-a"
-		walletB       = "wallet-b"
-		initialA      = int64(5000)
-		initialB      = int64(5000)
-		n             = 20
-		amount        = int64(100)
+		walletA  = "wallet-a"
+		walletB  = "wallet-b"
+		initialA = int64(5000)
+		initialB = int64(5000)
+		n        = 20
+		amount   = int64(100)
 	)
 
 	mustCreateWallet(t, db, walletA, initialA)
