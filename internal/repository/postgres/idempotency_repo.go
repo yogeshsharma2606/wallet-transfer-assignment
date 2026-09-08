@@ -78,7 +78,7 @@ func (r *IdempotencyRepo) Complete(ctx context.Context, tx *sql.Tx, key string, 
 	const q = `
 		UPDATE idempotency_records
 		SET status = 'COMPLETED', transfer_id = $1, response_status = $2, response_body = $3, updated_at = now()
-		WHERE idempotency_key = $4`
+		WHERE idempotency_key = $4 AND status = 'IN_PROGRESS'`
 	// transfer_id is nullable: validation-stage failures (e.g. unknown
 	// wallet) never create a transfers row, since that row's foreign keys
 	// would have nothing valid to reference.

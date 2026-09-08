@@ -43,7 +43,7 @@ type transferResponse struct {
 	ToWalletID    string `json:"toWalletId"`
 	Amount        int64  `json:"amount"`
 	FailureReason string `json:"failureReason,omitempty"`
-	Replayed      bool   `json:"replayed,omitempty"`
+	Replayed      bool   `json:"replayed"`
 }
 
 type errorResponse struct {
